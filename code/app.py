@@ -26,6 +26,22 @@ class Item(Resource):
         items.append(item)
         return item, 201
 
+    @jwt_required()
+    def delete(self, name):
+        global items
+        items = list(filter(lambda item: item['name'] != name, items))
+        return {"message": "Item deleted successfully"}
+
+    @jwt_required()
+    def put(self, name):
+        data = request.get_json()
+        item = next(filter(lambda item: item['name'] == name, items), None)
+        if item is None:
+            item = {'name': name, "price": data['price']}
+            items.append(item)
+        else:
+            item.update(data)
+        return item, 200
 
 class ItemList(Resource):
     def get(self):
