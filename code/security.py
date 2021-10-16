@@ -11,7 +11,7 @@ userid_mapping = {user.id: user for user in users}
 
 def authenticate(username, password):
     user = username_mapping.get(username, None)
-    if username and username.password == password:
+    if user and user.password == password:
         return user
 
 
